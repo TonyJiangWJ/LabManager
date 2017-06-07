@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.labcode.dao.StudentInfoDao">
+    <sql id="all">
+        studentId studentId,
+        studentName studentName,
+        studentNo studentNo,
+        gender gender,
+        email email,
+        pwd pwd
+    </sql>
+    <insert id="insert" parameterType="com.labcode.entity.StudentInfo">
+        INSERT INTO t_student(
+        <trim suffixOverrides=",">
+            <if test=" studentId!=null ">
+                studentId,
+            </if>
+            <if test=" studentName!=null and studentName!='' ">
+                studentName,
+            </if>
+            <if test=" studentNo!=null and studentNo!='' ">
+                studentNo,
+            </if>
+            <if test=" gender!=null and gender!='' ">
+                gender,
+            </if>
+            <if test=" email!=null and email!='' ">
+                email,
+            </if>
+            <if test=" pwd!=null and pwd!='' ">
+                pwd,
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test=" studentId!=null ">
+                #{studentId,jdbcType=INTEGER},
+            </if>
+            <if test=" studentName!=null and studentName!='' ">
+                #{studentName,jdbcType=VARCHAR},
+            </if>
+            <if test=" studentNo!=null and studentNo!='' ">
+                #{studentNo,jdbcType=VARCHAR},
+            </if>
+            <if test=" gender!=null and gender!='' ">
+                #{gender,jdbcType=VARCHAR},
+            </if>
+            <if test=" email!=null and email!='' ">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test=" pwd!=null and pwd!='' ">
+                #{pwd,jdbcType=VARCHAR},
+            </if>
+        </trim>
+        )
+        <selectKey keyProperty="studentId" resultType="INTEGER" order="AFTER">
+            select
+            LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="com.labcode.entity.StudentInfo">
+        UPDATE t_student
+        <trim prefix="SET" suffixOverrides=",">
+            <if test=" studentId!=null ">
+                studentId=#{studentId,jdbcType=INTEGER},
+            </if>
+            <if test=" studentName!=null and studentName!='' ">
+                studentName=#{studentName,jdbcType=VARCHAR},
+            </if>
+            <if test=" studentNo!=null and studentNo!='' ">
+                studentNo=#{studentNo,jdbcType=VARCHAR},
+            </if>
+            <if test=" gender!=null and gender!='' ">
+                gender=#{gender,jdbcType=VARCHAR},
+            </if>
+            <if test=" email!=null and email!='' ">
+                email=#{email,jdbcType=VARCHAR},
+            </if>
+            <if test=" pwd!=null and pwd!='' ">
+                pwd=#{pwd,jdbcType=VARCHAR},
+            </if>
+        </trim>
+
+        <trim prefix="WHERE" prefixOverrides="and">
+            <if test=" studentId!=null ">
+                and studentId=#{studentId,jdbcType=INTEGER}
+            </if>
+        </trim>
+    </update>
+
+    <select id="find" parameterType="com.labcode.entity.StudentInfo" resultType="com.labcode.entity.StudentInfo">
+        select
+        <include refid="all"/>
+        from t_student
+        <trim prefix="WHERE" prefixOverrides="and">
+            <if test=" studentId!=null ">
+                and studentId=#{studentId,jdbcType=INTEGER}
+            </if>
+            <if test=" studentName!=null and studentName!='' ">
+                and studentName=#{studentName,jdbcType=VARCHAR}
+            </if>
+            <if test=" studentNo!=null and studentNo!='' ">
+                and studentNo=#{studentNo,jdbcType=VARCHAR}
+            </if>
+            <if test=" gender!=null and gender!='' ">
+                and gender=#{gender,jdbcType=VARCHAR}
+            </if>
+            <if test=" email!=null and email!='' ">
+                and email=#{email,jdbcType=VARCHAR}
+            </if>
+            <if test=" pwd!=null and pwd!='' ">
+                and pwd=#{pwd,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </select>
+
+    <select id="findById" resultType="com.labcode.entity.StudentInfo" parameterType="Integer">
+        select
+        <include refid="all"/>
+        FROM t_student
+        WHERE studentId=#{id,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteById" parameterType="com.labcode.entity.StudentInfo">
+        DELETE
+        FROM t_student
+        WHERE studentId=#{studentId,jdbcType=INTEGER}
+    </delete>
+
+    <select id="fuzzyFind" parameterType="com.labcode.entity.StudentInfo" resultType="com.labcode.entity.StudentInfo">
+        select
+        <include refid="all"/>
+        from t_student
+        <trim prefix="WHERE" prefixOverrides="and">
+
+            <if test=" studentName!=null and studentName!='' ">
+                and studentName like CONCAT('%',#{studentName,jdbcType=VARCHAR},'%')
+            </if>
+
+        </trim>
+    </select>
+</mapper>

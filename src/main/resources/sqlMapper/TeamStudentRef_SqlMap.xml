@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.labcode.dao.TeamStudentRefDao">
+    <sql id="all">
+        id id,
+        studentId studentId,
+        teamId teamId
+    </sql>
+    <insert id="insert"
+            parameterType="com.labcode.entity.TeamStudentRef">
+        INSERT INTO t_team_student(
+        <trim suffixOverrides=",">
+            <if test=" id!=null ">
+                id,
+            </if>
+            <if test=" studentId!=null ">
+                studentId,
+            </if>
+            <if test=" teamId!=null ">
+                teamId,
+            </if>
+        </trim>
+        ) VALUES (
+        <trim suffixOverrides=",">
+            <if test=" id!=null ">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test=" studentId!=null ">
+                #{studentId,jdbcType=INTEGER},
+            </if>
+            <if test=" teamId!=null ">
+                #{teamId,jdbcType=INTEGER},
+            </if>
+        </trim>
+        )
+        <selectKey keyProperty="id" resultType="INTEGER" order="AFTER">
+            select
+            LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="com.labcode.entity.TeamStudentRef">
+        UPDATE t_team_student
+        <trim prefix="SET" suffixOverrides=",">
+            <if test=" id!=null ">
+                id=#{id,jdbcType=INTEGER},
+            </if>
+            <if test=" studentId!=null ">
+                studentId=#{studentId,jdbcType=INTEGER},
+            </if>
+            <if test=" teamId!=null ">
+                teamId=#{teamId,jdbcType=INTEGER},
+            </if>
+        </trim>
+
+        <trim prefix="WHERE" prefixOverrides="and">
+            <if test=" id!=null ">
+                and id=#{id,jdbcType=INTEGER}
+            </if>
+        </trim>
+    </update>
+
+    <select id="find" parameterType="com.labcode.entity.TeamStudentRef" resultType="com.labcode.entity.TeamStudentRef">
+        select
+        <include refid="all"/>
+        from t_team_student
+        <trim prefix="WHERE" prefixOverrides="and">
+            <if test=" id!=null ">
+                and id=#{id,jdbcType=INTEGER}
+            </if>
+            <if test=" studentId!=null ">
+                and studentId=#{studentId,jdbcType=INTEGER}
+            </if>
+            <if test=" teamId!=null ">
+                and teamId=#{teamId,jdbcType=INTEGER}
+            </if>
+        </trim>
+    </select>
+    <select id="findById" resultType="com.labcode.entity.TeamStudentRef" parameterType="Integer">
+        select
+        <include refid="all"/>
+        FROM t_team_student
+        WHERE id=#{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteById" parameterType="com.labcode.entity.TeamStudentRef">
+        DELETE
+        FROM t_team_student
+        WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+</mapper>

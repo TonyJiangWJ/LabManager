@@ -1,0 +1,25 @@
+# Server settings
+server:
+    port: 8080
+    address: localhost
+    tomcat:
+        uri-encoding: utf-8
+# SPRING PROFILES
+spring:
+    http:
+        encoding.charset: UTF-8
+        encoding.force: true
+        encoding.enabled: true
+    datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/LabInfo?serverTimezone=UTC&characterEncoding=utf8&useUnicode=true&useSSL=false
+      username: root
+      password: fixture
+
+# MyBatis
+mybatis:
+    typeAliasesPackage: com.labcode.entity
+    mapperLocations: classpath:/sqlMapper/*SqlMap.xml
+    configLocation: classpath:/mybatis-config.xml
+
+# LOGGING
